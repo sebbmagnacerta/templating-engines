@@ -6,8 +6,8 @@ let template = `{
     "type": ["VerifiableCredential","FHIRCredential"],
     "id": "{{ credential_id }}",
     "issuer": "{{ issuer_ref }}",
-    "issuanceDate": "{{ issuance_date }}",
-    "expirationDate": "{{ expiration_date }}",
+    "issuanceDate": "{{ formatedIssuanceDate() }}",
+    "expirationDate": "{{ formatedExpirationDate() }}",
     "credentialSubject": {
         "type": "FHIRCredential",
         "id": "{{ subject.id }}",
@@ -15,12 +15,8 @@ let template = `{
         "additionalName": "{{ subject.additionalName}}",
         "familyName": "{{ subject.familyName}}",
         "gender": "{{ subject.gender}}",
-        "honorificPrefix": " {% if subject.honorificPrefix %}
-                                {{ subject.honorificPrefix }}
-                            {% else %}
-                                default prefix
-                            {% endif %}",
-        "honorificSuffix": "{{ subject.honorificSuffix }}",
+        "honorificPrefix": "{% if subject.honorificPrefix %}{{ subject.honorificPrefix.toUpperCase()}}{% else %}{% endif %}",
+        "honorificSuffix": "{% if subject.honorificSuffix %}{{ subject.honorificSuffix.toUpperCase()}}{% else %}{% endif %}",
         "photograph": "{{ subject.photograph}}",
         "fhirVersion": "{{ fhir.version }}"
     }
@@ -34,7 +30,7 @@ let subject = {
     familyName : "Family Name",
     gender : "Male",
     honorificPrefix : "",
-    honorificSuffix : "sufix",
+    honorificSuffix : "",
     photograph : "photograph"
 };
 
@@ -45,8 +41,25 @@ let fhir = {
 let values = {
     credential_id : "http://example.edu/credentials/1872",
     issuer_ref : "https://example.edu/issuers/565049",
-    issuance_date : "2010-01-01T19:73:24Z",
-    expiration_date : "2010-01-01T20:73:24Z",
+    formatedIssuanceDate : () => {
+
+        let issuance_date = "05 October 2011 14:48 UTC";
+        
+        const event = new Date(issuance_date);
+
+        return event.toISOString();
+
+    },
+    formatedExpirationDate : () => {
+        
+        let expiration_date = "05 October 2012 14:48 UTC";
+
+        const event = new Date(expiration_date);
+
+        console.log(event);
+
+        return event.toISOString();
+    },
     subject : subject,
     fhir : fhir
 }
