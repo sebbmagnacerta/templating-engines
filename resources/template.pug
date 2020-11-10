@@ -1,10 +1,3 @@
-- var prefix
-
-    if "#{subject.honorificPrefix}"
-        prefix =  #{subject.honorificPrefix.toUpperCase()}
-    else
-        prefix  = ''
-
 |   { 
 |       "@context" : [ "https://www.w3.org/2018/credentials/v1","https://schema.opencerta.org/fhir/202009"],
 |       "type": ["VerifiableCredential","FHIRCredential"],
@@ -19,8 +12,8 @@
 |           "additionalName": "#{subject.additionalName}",
 |           "familyName": "#{subject.familyName}",
 |           "gender": "#{subject.gender}",
-|           "honorificPrefix": "#{prefix}"
-|           "honorificSuffix": "#{subject.honorificSuffix.toUpperCase()}",
+|           "honorificPrefix": "#{subject.honorificPrefix}",
+|           "honorificSuffix": "#{subject.honorificSuffix}",
 |           "photograph": "#{subject.photograph}",
 |           "fhirVersion": "#{fhir.version}"
 |       }
